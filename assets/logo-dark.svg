@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 14 104 100" width="104" height="100" role="img" aria-label="Agent Switchboard logo">
+  <g fill="none" stroke-width="4.5" stroke-linecap="round">
+    <path d="M32 53 C64 53 64 76 96 76" stroke="#db6d28"/>
+    <path d="M32 76 C64 76 64 53 96 53" stroke="#c9a07a"/>
+    <path d="M32 30 H96" stroke="#3fb950"/>
+    <path d="M32 99 H96" stroke="#f85149"/>
+  </g>
+  <g fill="#0d1117" stroke="#9fb3c8" stroke-width="3">
+    <circle cx="96" cy="30" r="7"/>
+    <circle cx="96" cy="53" r="7"/>
+    <circle cx="96" cy="76" r="7"/>
+    <circle cx="96" cy="99" r="7"/>
+  </g>
+  <circle cx="32" cy="30" r="8.5" fill="#3fb950"/>
+  <circle cx="32" cy="53" r="8.5" fill="#db6d28"/>
+  <circle cx="32" cy="76" r="8.5" fill="#c9a07a"/>
+  <circle cx="32" cy="99" r="8.5" fill="#f85149"/>
+</svg>
