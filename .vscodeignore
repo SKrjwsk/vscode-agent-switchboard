@@ -8,3 +8,5 @@ docs/**
 eslint.config.js
 package-lock.json
 *.vsix
+assets/**
+media/logo.svg

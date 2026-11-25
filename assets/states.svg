@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 176" width="680" height="176" role="img" aria-labelledby="t d">
+  <title id="t">Session states</title>
+  <desc id="d">Green: working. Red: needs approval, a permission prompt is open. Orange: your turn, Claude finished and waits for your answer. Pale orange: dormant, waiting for your answer for 30 minutes or longer.</desc>
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; fill: #b8c4d4; }
+    .name { fill: #f0f4f8; }
+  </style>
+  <rect width="680" height="176" fill="#0f1b2d"/>
+  <circle cx="36" cy="36" r="8" fill="#3fb950"/>
+  <text class="name" x="60" y="41">working</text>
+  <text x="200" y="41">Claude Code is working</text>
+  <circle cx="36" cy="72" r="8" fill="#f85149"/>
+  <text class="name" x="60" y="77">needs approval</text>
+  <text x="200" y="77">a permission prompt is open (counted in the badge)</text>
+  <circle cx="36" cy="108" r="8" fill="#db6d28"/>
+  <text class="name" x="60" y="113">your turn</text>
+  <text x="200" y="113">Claude finished and waits for your answer</text>
+  <circle cx="36" cy="144" r="8" fill="#c9a07a"/>
+  <text class="name" x="60" y="149">dormant</text>
+  <text x="200" y="149">your turn for 30 minutes or longer</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 340" width="960" height="340" role="img" aria-labelledby="t d">
+  <title id="t">How Agent Switchboard works</title>
+  <desc id="d">Claude Code sessions in any terminal write state files and transcripts to the .claude folder. Agent Switchboard only reads them and shows the sessions in the Open, Favorites and All views. Nothing is written back.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#9fb3c8"/>
+    </marker>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; fill: #b8c4d4; }
+      .lbl { font-size: 12px; fill: #7f93aa; letter-spacing: 1.5px; }
+      .dim { fill: #7f93aa; }
+      .hi { fill: #f0f4f8; }
+      .no { fill: #f85149; }
+      .sm { font-size: 12px; }
+      .box { fill: none; stroke: #2a3b52; stroke-width: 1; }
+      .wire { stroke: #9fb3c8; stroke-width: 1.5; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="960" height="340" fill="#0f1b2d"/>
+
+  <!-- sessions -->
+  <g id="sessions">
+    <rect class="box" x="36.5" y="40.5" width="180" height="200"/>
+    <rect x="48" y="32" width="110" height="16" fill="#0f1b2d"/>
+    <text class="lbl" x="56" y="44">SESSIONS</text>
+    <circle cx="56" cy="84" r="5" fill="#3fb950"/>
+    <text class="sm" x="72" y="88">VS Code terminal</text>
+    <circle cx="56" cy="114" r="5" fill="#f85149"/>
+    <text class="sm" x="72" y="118">Ghostty</text>
+    <circle cx="56" cy="144" r="5" fill="#db6d28"/>
+    <text class="sm" x="72" y="148">tmux</text>
+    <circle cx="56" cy="174" r="5" fill="#c9a07a"/>
+    <text class="sm" x="72" y="178">any terminal</text>
+    <text class="dim sm" x="52" y="216">Claude Code, running</text>
+  </g>
+
+  <!-- ~/.claude -->
+  <g id="files">
+    <rect class="box" x="272.5" y="40.5" width="180" height="200"/>
+    <rect x="284" y="32" width="100" height="16" fill="#0f1b2d"/>
+    <text class="lbl" x="292" y="44">~/.claude</text>
+    <text class="hi sm" x="288" y="84">sessions/&lt;pid&gt;.json</text>
+    <text class="dim sm" x="288" y="104">id · folder · state</text>
+    <text class="hi sm" x="288" y="148">projects/*.jsonl</text>
+    <text class="dim sm" x="288" y="168">transcripts</text>
+    <text class="dim sm" x="288" y="216">Claude Code writes</text>
+  </g>
+
+  <!-- switchboard -->
+  <g id="switchboard">
+    <rect class="box" x="508.5" y="40.5" width="180" height="200"/>
+    <rect x="520" y="32" width="164" height="16" fill="#0f1b2d"/>
+    <text class="lbl" x="528" y="44">AGENT SWITCHBOARD</text>
+    <text class="hi sm" x="524" y="84">reads, never writes</text>
+    <text class="dim sm" x="524" y="124">no hooks</text>
+    <text class="dim sm" x="524" y="148">no network</text>
+    <text class="dim sm" x="524" y="172">no dependencies</text>
+    <text class="dim sm" x="524" y="216">VS Code extension</text>
+  </g>
+
+  <!-- panel -->
+  <g id="panel">
+    <rect class="box" x="744.5" y="40.5" width="180" height="200"/>
+    <rect x="756" y="32" width="64" height="16" fill="#0f1b2d"/>
+    <text class="lbl" x="764" y="44">PANEL</text>
+    <text class="hi sm" x="760" y="84">Open</text>
+    <text class="dim sm" x="760" y="104">running now</text>
+    <text class="hi sm" x="760" y="136">Favorites</text>
+    <text class="dim sm" x="760" y="156">starred</text>
+    <text class="hi sm" x="760" y="188">All</text>
+    <text class="dim sm" x="760" y="208">folder tree</text>
+  </g>
+
+  <!-- data flow -->
+  <path class="wire" d="M222 140 H264" marker-end="url(#arr)"/>
+  <path class="wire" d="M694 140 H736" marker-end="url(#arr)"/>
+
+  <!-- read-only link: the arrow points from the files to the switchboard, nothing goes back -->
+  <path class="wire" d="M458 120 H500" marker-end="url(#arr)"/>
+  <path d="M500 176 H458" fill="none" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <path d="M472 168 L486 184 M486 168 L472 184" stroke="#f85149" stroke-width="2" stroke-linecap="round"/>
+
+  <text class="sm dim" x="480" y="272" text-anchor="middle">files → panel: read only</text>
+  <text class="sm no" x="480" y="296" text-anchor="middle">✕ nothing is written back to ~/.claude</text>
+</svg>
