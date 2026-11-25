@@ -4,6 +4,11 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+## [0.1.2]
+
+### Changed
+- State colors: green working, red needs approval, yellow your turn, dim yellow dormant (orange looked too close to red)
+
 ## [0.1.1]
 
 ### Changed

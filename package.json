@@ -2,7 +2,7 @@
   "name": "agent-switchboard",
   "displayName": "Agent Switchboard",
   "description": "Session manager for Claude Code: running and past sessions, favorites, folder tree, resume in an editor tab. Read-only, no hooks.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "skrjwsk",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -275,18 +275,18 @@
         "id": "agentSwitchboard.yourTurn",
         "description": "Claude Code session finished and waits for your answer",
         "defaults": {
-          "dark": "#db6d28",
-          "light": "#bc4c00",
-          "highContrast": "#ffa657"
+          "dark": "#e3b341",
+          "light": "#9a6700",
+          "highContrast": "#f2cc60"
         }
       },
       {
         "id": "agentSwitchboard.dormant",
         "description": "Claude Code session has waited for your answer for 30 minutes or longer",
         "defaults": {
-          "dark": "#8f6a48",
-          "light": "#d9b99b",
-          "highContrast": "#c98a5a"
+          "dark": "#9d9468",
+          "light": "#b5a76b",
+          "highContrast": "#c8bb7a"
         }
       }
     ],

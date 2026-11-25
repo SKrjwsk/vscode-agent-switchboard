@@ -67,8 +67,8 @@
     <text class="hi sm" x="760" y="84">Open</text>
     <circle cx="824" cy="80" r="4.5" fill="#3fb950"/>
     <circle cx="842" cy="80" r="4.5" fill="#f85149"/>
-    <circle cx="860" cy="80" r="4.5" fill="#db6d28"/>
-    <circle cx="878" cy="80" r="4.5" fill="#c9a07a"/>
+    <circle cx="860" cy="80" r="4.5" fill="#e3b341"/>
+    <circle cx="878" cy="80" r="4.5" fill="#9d9468"/>
     <text class="dim sm" x="760" y="104">running now</text>
     <text class="hi sm" x="760" y="136">Favorites</text>
     <text class="dim sm" x="760" y="156">starred</text>

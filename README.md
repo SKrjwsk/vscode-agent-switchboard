@@ -25,10 +25,10 @@ Agent Switchboard shows every session in one panel, colored by what it is doing,
 
 ## Install
 
-**1. Install the ready-made file.** Download [`agent-switchboard-0.1.1.vsix`](https://github.com/SKrjwsk/vscode-agent-switchboard/raw/master/agent-switchboard-0.1.1.vsix) from this repository and run:
+**1. Install the ready-made file.** Download [`agent-switchboard-0.1.2.vsix`](https://github.com/SKrjwsk/vscode-agent-switchboard/raw/master/agent-switchboard-0.1.2.vsix) from this repository and run:
 
 ```bash
-code --install-extension agent-switchboard-0.1.1.vsix
+code --install-extension agent-switchboard-0.1.2.vsix
 ```
 
 **2. Build it yourself.** From a clone of this repository:
@@ -36,10 +36,10 @@ code --install-extension agent-switchboard-0.1.1.vsix
 ```bash
 npm ci
 npm run package
-code --install-extension agent-switchboard-0.1.1.vsix
+code --install-extension agent-switchboard-0.1.2.vsix
 ```
 
-Or paste this to your agent: *Install the VS Code extension from `https://github.com/SKrjwsk/vscode-agent-switchboard`: download `agent-switchboard-0.1.1.vsix` from the repository, install it with `code --install-extension`, then tell me to run Developer: Reload Window.*
+Or paste this to your agent: *Install the VS Code extension from `https://github.com/SKrjwsk/vscode-agent-switchboard`: download `agent-switchboard-0.1.2.vsix` from the repository, install it with `code --install-extension`, then tell me to run Developer: Reload Window.*
 
 Then run **Developer: Reload Window**. Supported on macOS and Linux with POSIX shells (sh, bash, zsh); Windows is not supported.
 
@@ -54,7 +54,7 @@ Then run **Developer: Reload Window**. Supported on macOS and Linux with POSIX s
 ## Everyday use cases
 
 - **Three agents in Ghostty.** You started three sessions in a terminal outside VS Code. One asks for permission to run a command: its icon in **Open** turns red and the badge on the panel icon shows `1`. The other two stay green while they work.
-- **Whose turn is it?** Finished sessions turn orange: your turn. After 30 minutes without an answer the orange fades, so the sessions you just left stand out from the ones you forgot.
+- **Whose turn is it?** Finished sessions turn yellow: your turn. After 30 minutes without an answer the yellow dims, so the sessions you just left stand out from the ones you forgot.
 - **Back to yesterday's work.** Open **All**, find the session in the folder tree it was started in, or search by title, and double click. If the session still runs elsewhere, you are warned before a second instance writes to the same transcript.
 - **What did that session do?** **Read transcript** shows a session as Markdown without resuming it, so you can check an old session without touching its history.
 
@@ -90,7 +90,7 @@ Folder paths from session files never pass through a shell: terminals get them a
 ## Limitations
 
 - Session files are an internal, undocumented Claude Code format, tested on Claude Code 2.1.312. A Claude Code version that does not write `~/.claude/sessions/<pid>.json` leaves **Open** empty with a message above it; **Favorites** and **All** keep working, they read only transcripts
-- The states come from the `status` and `waitingFor` fields of the session files, checked on Claude Code 2.1.312: `waitingFor` was seen with the value `permission prompt`; any other value, or none, also counts as needs approval. A session idle for 30 minutes or longer turns dormant on the next refresh
+- The states come from the `status` and `waitingFor` fields of the session files, checked on Claude Code 2.1.312: `waitingFor` was seen with the values `permission prompt` and `input needed`; any other value, or none, also counts as needs approval. A session idle for 30 minutes or longer turns dormant on the next refresh
 - The extension reads `~/.claude`; a different location set with Claude Code's `CLAUDE_CONFIG_DIR` is not supported
 - Supported on macOS and Linux with POSIX shells (sh, bash, zsh). The copied resume command and the quoting of session names are not meant for fish or cmd.exe; Windows is not supported
 - Sessions running outside VS Code cannot be focused from the panel
