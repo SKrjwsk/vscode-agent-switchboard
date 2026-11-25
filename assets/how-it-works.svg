@@ -24,13 +24,13 @@
     <rect class="box" x="36.5" y="40.5" width="180" height="200"/>
     <rect x="48" y="32" width="110" height="16" fill="#0f1b2d"/>
     <text class="lbl" x="56" y="44">SESSIONS</text>
-    <circle cx="56" cy="84" r="5" fill="#3fb950"/>
+    <circle cx="56" cy="84" r="5" fill="#9fb3c8"/>
     <text class="sm" x="72" y="88">VS Code terminal</text>
-    <circle cx="56" cy="114" r="5" fill="#f85149"/>
+    <circle cx="56" cy="114" r="5" fill="#9fb3c8"/>
     <text class="sm" x="72" y="118">Ghostty</text>
-    <circle cx="56" cy="144" r="5" fill="#db6d28"/>
+    <circle cx="56" cy="144" r="5" fill="#9fb3c8"/>
     <text class="sm" x="72" y="148">tmux</text>
-    <circle cx="56" cy="174" r="5" fill="#c9a07a"/>
+    <circle cx="56" cy="174" r="5" fill="#9fb3c8"/>
     <text class="sm" x="72" y="178">any terminal</text>
     <text class="dim sm" x="52" y="216">Claude Code, running</text>
   </g>
@@ -65,6 +65,10 @@
     <rect x="756" y="32" width="64" height="16" fill="#0f1b2d"/>
     <text class="lbl" x="764" y="44">PANEL</text>
     <text class="hi sm" x="760" y="84">Open</text>
+    <circle cx="824" cy="80" r="4.5" fill="#3fb950"/>
+    <circle cx="842" cy="80" r="4.5" fill="#f85149"/>
+    <circle cx="860" cy="80" r="4.5" fill="#db6d28"/>
+    <circle cx="878" cy="80" r="4.5" fill="#c9a07a"/>
     <text class="dim sm" x="760" y="104">running now</text>
     <text class="hi sm" x="760" y="136">Favorites</text>
     <text class="dim sm" x="760" y="156">starred</text>
