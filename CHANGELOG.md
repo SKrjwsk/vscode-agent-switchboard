@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Changed
+- New icon and logo: a switchboard of four sockets in the state colors
+- README: logo, "How it works" diagram, state legend and everyday use cases
+
 ## [0.1.0]
 
 ### Added

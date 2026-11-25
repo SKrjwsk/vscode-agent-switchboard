@@ -2,7 +2,7 @@
   "name": "agent-switchboard",
   "displayName": "Agent Switchboard",
   "description": "Session manager for Claude Code: running and past sessions, favorites, folder tree, resume in an editor tab. Read-only, no hooks.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "skrjwsk",
   "license": "MIT",
   "icon": "media/icon.png",
