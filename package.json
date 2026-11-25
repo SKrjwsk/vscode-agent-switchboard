@@ -1,0 +1,314 @@
+{
+  "name": "agent-switchboard",
+  "displayName": "Agent Switchboard",
+  "description": "Session manager for Claude Code: running and past sessions, favorites, folder tree, resume in an editor tab. Read-only, no hooks.",
+  "version": "0.1.0",
+  "publisher": "skrjwsk",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SKrjwsk/vscode-agent-switchboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SKrjwsk/vscode-agent-switchboard/issues"
+  },
+  "homepage": "https://github.com/SKrjwsk/vscode-agent-switchboard#readme",
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "claude code",
+    "agent",
+    "sessions",
+    "terminal",
+    "resume",
+    "transcript"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": false
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node --test test/*.test.js",
+    "package": "vsce package --no-dependencies"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Agent Switchboard",
+      "properties": {
+        "agentSwitchboard.titlePathPrefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "machine",
+          "markdownDescription": "Folder paths cut from session titles, e.g. `~/work/` turns `~/work/app/README.md` into `app/README.md`. Absolute or starting with `~/`."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agentSwitchboardContainer",
+          "title": "Agent Switchboard",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "agentSwitchboardContainer": [
+        {
+          "id": "agentSwitchboardOpen",
+          "name": "Open"
+        },
+        {
+          "id": "agentSwitchboardFavorites",
+          "name": "Favorites"
+        },
+        {
+          "id": "agentSwitchboardAll",
+          "name": "All"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "agentSwitchboard.refresh",
+        "title": "Refresh",
+        "category": "Agent Switchboard",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "agentSwitchboard.search",
+        "title": "Search sessions",
+        "category": "Agent Switchboard",
+        "icon": "$(search)"
+      },
+      {
+        "command": "agentSwitchboard.resume",
+        "title": "Resume session",
+        "icon": "$(play)"
+      },
+      {
+        "command": "agentSwitchboard.copyResume",
+        "title": "Copy resume command",
+        "icon": "$(copy)"
+      },
+      {
+        "command": "agentSwitchboard.addFavorite",
+        "title": "Add to favorites",
+        "icon": "$(star-empty)"
+      },
+      {
+        "command": "agentSwitchboard.removeFavorite",
+        "title": "Remove from favorites",
+        "icon": "$(star-full)"
+      },
+      {
+        "command": "agentSwitchboard.close",
+        "title": "Close session tab",
+        "icon": "$(close)"
+      },
+      {
+        "command": "agentSwitchboard.readTranscript",
+        "title": "Read transcript",
+        "icon": "$(book)"
+      },
+      {
+        "command": "agentSwitchboard.startClaudeHere",
+        "title": "Start Claude here",
+        "icon": "$(add)"
+      },
+      {
+        "command": "agentSwitchboard.startClaudeInWorkspace",
+        "title": "Start Claude in this folder",
+        "category": "Agent Switchboard",
+        "icon": "$(add)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "agentSwitchboard.startClaudeInWorkspace",
+          "when": "view =~ /^agentSwitchboard(Open|Favorites|All)$/",
+          "group": "navigation@0"
+        },
+        {
+          "command": "agentSwitchboard.search",
+          "when": "view =~ /^agentSwitchboard(Open|Favorites|All)$/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "agentSwitchboard.refresh",
+          "when": "view =~ /^agentSwitchboard(Open|Favorites|All)$/",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "agentSwitchboard.copyResume",
+          "when": "(view == agentSwitchboardAll || view == agentSwitchboardFavorites) && viewItem =~ /\\bsession\\b/",
+          "group": "inline@1"
+        },
+        {
+          "command": "agentSwitchboard.addFavorite",
+          "when": "viewItem =~ /\\bnotFavorite\\b/",
+          "group": "inline@2"
+        },
+        {
+          "command": "agentSwitchboard.removeFavorite",
+          "when": "viewItem =~ /\\bfavorite\\b/",
+          "group": "inline@2"
+        },
+        {
+          "command": "agentSwitchboard.close",
+          "when": "view == agentSwitchboardOpen && viewItem =~ /\\bopenInVsCode\\b/",
+          "group": "inline@9"
+        },
+        {
+          "command": "agentSwitchboard.resume",
+          "when": "(view == agentSwitchboardAll || view == agentSwitchboardFavorites) && viewItem =~ /\\bsession\\b/",
+          "group": "1_session@1"
+        },
+        {
+          "command": "agentSwitchboard.copyResume",
+          "when": "(view == agentSwitchboardAll || view == agentSwitchboardFavorites) && viewItem =~ /\\bsession\\b/",
+          "group": "1_session@2"
+        },
+        {
+          "command": "agentSwitchboard.addFavorite",
+          "when": "viewItem =~ /\\bnotFavorite\\b/",
+          "group": "2_favorite@1"
+        },
+        {
+          "command": "agentSwitchboard.removeFavorite",
+          "when": "viewItem =~ /\\bfavorite\\b/",
+          "group": "2_favorite@1"
+        },
+        {
+          "command": "agentSwitchboard.close",
+          "when": "view == agentSwitchboardOpen && viewItem =~ /\\bopenInVsCode\\b/",
+          "group": "3_tab@1"
+        },
+        {
+          "command": "agentSwitchboard.readTranscript",
+          "when": "(((view == agentSwitchboardAll || view == agentSwitchboardFavorites) && viewItem =~ /\\bsession\\b/) || (view == agentSwitchboardOpen && viewItem =~ /\\bhasSession\\b/))",
+          "group": "inline@0"
+        },
+        {
+          "command": "agentSwitchboard.readTranscript",
+          "when": "(((view == agentSwitchboardAll || view == agentSwitchboardFavorites) && viewItem =~ /\\bsession\\b/) || (view == agentSwitchboardOpen && viewItem =~ /\\bhasSession\\b/))",
+          "group": "1_session@0"
+        },
+        {
+          "command": "agentSwitchboard.startClaudeHere",
+          "when": "view == agentSwitchboardAll && viewItem == folder",
+          "group": "inline@1"
+        },
+        {
+          "command": "agentSwitchboard.startClaudeHere",
+          "when": "view == agentSwitchboardAll && viewItem == folder",
+          "group": "1_folder@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "agentSwitchboard.resume",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.copyResume",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.addFavorite",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.removeFavorite",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.close",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.readTranscript",
+          "when": "false"
+        },
+        {
+          "command": "agentSwitchboard.startClaudeHere",
+          "when": "false"
+        }
+      ]
+    },
+    "colors": [
+      {
+        "id": "agentSwitchboard.working",
+        "description": "Claude Code session is working",
+        "defaults": {
+          "dark": "#3fb950",
+          "light": "#1a7f37",
+          "highContrast": "#3fb950"
+        }
+      },
+      {
+        "id": "agentSwitchboard.needsApproval",
+        "description": "Claude Code session waits for your approval (permission prompt)",
+        "defaults": {
+          "dark": "#f85149",
+          "light": "#cf222e",
+          "highContrast": "#ff7b72"
+        }
+      },
+      {
+        "id": "agentSwitchboard.yourTurn",
+        "description": "Claude Code session finished and waits for your answer",
+        "defaults": {
+          "dark": "#db6d28",
+          "light": "#bc4c00",
+          "highContrast": "#ffa657"
+        }
+      },
+      {
+        "id": "agentSwitchboard.dormant",
+        "description": "Claude Code session has waited for your answer for 30 minutes or longer",
+        "defaults": {
+          "dark": "#8f6a48",
+          "light": "#d9b99b",
+          "highContrast": "#c98a5a"
+        }
+      }
+    ],
+    "viewsWelcome": [
+      {
+        "view": "agentSwitchboardOpen",
+        "contents": "No Claude sessions running in this folder.\n[Search sessions](command:agentSwitchboard.search)"
+      },
+      {
+        "view": "agentSwitchboardFavorites",
+        "contents": "No favorites in this folder.\nStar a session in All to pin it here. Favorites from other folders are hidden."
+      },
+      {
+        "view": "agentSwitchboardAll",
+        "contents": "No Claude sessions started in this folder yet."
+      }
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vscode/vsce": "^4.1.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0"
+  }
+}
