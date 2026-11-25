@@ -25,19 +25,13 @@ Agent Switchboard shows every session in one panel, colored by what it is doing,
 
 ## Install
 
-<!-- works once the extension is published in the VS Code Marketplace -->
-```bash
-code --install-extension skrjwsk.agent-switchboard
-```
-
-Or paste this to your agent: *Install the VS Code extension `skrjwsk.agent-switchboard` for me, then tell me to reload the window.*
-
-<!-- needs the .vsix attached to the GitHub Release -->
-Without the Marketplace: download `agent-switchboard-<version>.vsix` from [GitHub Releases](https://github.com/SKrjwsk/vscode-agent-switchboard/releases) and run:
+Download `agent-switchboard-0.1.1.vsix` from the [latest release](https://github.com/SKrjwsk/vscode-agent-switchboard/releases/latest) and run:
 
 ```bash
-code --install-extension agent-switchboard-<version>.vsix
+code --install-extension agent-switchboard-0.1.1.vsix
 ```
+
+Or paste this to your agent: *Download the latest `.vsix` from the GitHub releases of `SKrjwsk/vscode-agent-switchboard` (for example with `gh release download --repo SKrjwsk/vscode-agent-switchboard --pattern '*.vsix'`), install it with `code --install-extension`, then tell me to run Developer: Reload Window.*
 
 Then run **Developer: Reload Window**. Supported on macOS and Linux with POSIX shells (sh, bash, zsh); Windows is not supported.
 
