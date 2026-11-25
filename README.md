@@ -6,46 +6,67 @@
 # Agent Switchboard
 
 **A free (MIT), local session manager for Claude Code in VS Code: running and past sessions in one panel, read-only, with no hooks and no dependencies.**
-See at a glance which sessions are working, which wait for your approval and which wait for your answer, then resume any past session in an editor tab.
 
-![How Agent Switchboard works](assets/how-it-works.png)
+[![CI](https://github.com/SKrjwsk/vscode-agent-switchboard/actions/workflows/ci.yml/badge.svg)](https://github.com/SKrjwsk/vscode-agent-switchboard/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/SKrjwsk/vscode-agent-switchboard)](https://github.com/SKrjwsk/vscode-agent-switchboard/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Why
 
-- You run several Claude Code sessions at once, in VS Code, Ghostty or tmux. One of them has been waiting for a permission for ten minutes and you did not notice.
-- Yesterday's session is somewhere in a pile of folders. Finding it and resuming it means remembering the folder and the id.
-- Agent Switchboard answers both from the files Claude Code already writes. It does not install hooks, does not write to `~/.claude` and sends nothing anywhere.
+You run several Claude Code sessions at once, in VS Code, Ghostty or tmux. One of them stops at a permission prompt and waits. You find out when you come back to that terminal, and that session's work stood still until then.
 
-<!-- demo GIF goes here: assets/demo.gif, recorded by the maintainer on synthetic sessions -->
+A day later the work you want to continue is a session in one of many folders. You have to remember where it ran and which id to pass to `claude --resume`.
 
-## Session states
+Agent Switchboard shows every session in one panel, colored by what it is doing, and resumes any of them with a double click. It reads the files Claude Code already writes: no hooks to install, nothing written to `~/.claude`, nothing sent anywhere.
+
+![How Agent Switchboard works](assets/how-it-works.png)
+
+<!-- demo GIF goes here instead of the diagram above: assets/demo.gif, recorded by the maintainer on synthetic sessions -->
+
+## Install
+
+<!-- works once the extension is published in the VS Code Marketplace -->
+```bash
+code --install-extension skrjwsk.agent-switchboard
+```
+
+Or paste this to your agent: *Install the VS Code extension `skrjwsk.agent-switchboard` for me, then tell me to reload the window.*
+
+<!-- needs the .vsix attached to the GitHub Release -->
+Without the Marketplace: download `agent-switchboard-<version>.vsix` from [GitHub Releases](https://github.com/SKrjwsk/vscode-agent-switchboard/releases) and run:
+
+```bash
+code --install-extension agent-switchboard-<version>.vsix
+```
+
+Then run **Developer: Reload Window**. Supported on macOS and Linux with POSIX shells (sh, bash, zsh); Windows is not supported.
+
+## First use
+
+1. Click the Agent Switchboard icon in the activity bar. **Open** lists the Claude Code sessions running in this folder, including those started in Ghostty, tmux or any other terminal.
+2. Read the icon colors: working, needs approval, your turn, dormant. A badge on the panel icon counts the sessions that need approval, even when the panel is collapsed.
+3. Open **All**, find a past session in the folder tree and double click it. It resumes in an editor tab with `claude --resume`.
 
 ![Session states: working, needs approval, your turn, dormant](assets/states.png)
 
 ## Everyday use cases
 
-- **Three agents in Ghostty.** You started three sessions in a terminal outside VS Code. One asks for permission to run a command: its icon in **Open** turns red and the badge on the panel icon shows `1`, even when the panel is collapsed. The other two stay green while they work.
+- **Three agents in Ghostty.** You started three sessions in a terminal outside VS Code. One asks for permission to run a command: its icon in **Open** turns red and the badge on the panel icon shows `1`. The other two stay green while they work.
 - **Whose turn is it?** Finished sessions turn orange: your turn. After 30 minutes without an answer the orange fades, so the sessions you just left stand out from the ones you forgot.
-- **Back to yesterday's work.** Open **All**, find the session in the folder tree it was started in, or search by title, and double click. It resumes with `claude --resume` in an editor tab.
-- **What did that session do?** **Read transcript** shows a session as Markdown without resuming it, so you can check an old session without writing to its history.
+- **Back to yesterday's work.** Open **All**, find the session in the folder tree it was started in, or search by title, and double click. If the session still runs elsewhere, you are warned before a second instance writes to the same transcript.
+- **What did that session do?** **Read transcript** shows a session as Markdown without resuming it, so you can check an old session without touching its history.
 
-## Features
+More: star sessions into **Favorites**, start a new named session in any folder of the tree (**Start Claude here**), search sessions by title, date or folder, and copy a resume command for another terminal. All views show only sessions from the folders open in the window; a window without a folder shows everything.
 
-- **Sessions from any terminal** — running sessions started outside VS Code (Ghostty, tmux, any terminal) show up too, matched from `~/.claude/sessions` without installing a hook
-- **All sessions as a folder tree** — built from the directory each session was started in, history included
-- **Open** — every running Claude Code process in the current workspace
-  - icon color shows the state: working (green), needs approval (red, a permission prompt is open), your turn (orange, Claude finished and waits for your answer), dormant (pale orange, waiting for your answer for 30 minutes or longer)
-  - a badge on the panel icon counts sessions that need approval, even when the panel is collapsed
-  - click switches to the session's terminal tab; `×` closes it (asks first while Claude is working)
-- **Favorites** — sessions you starred, in the order you added them
-- **All** — every session, newest first
-- **Resume** — double click opens `claude --resume <id>` as a terminal tab in the first editor group; if the session already runs elsewhere, you are warned before a second instance writes to the same transcript
-- **Start Claude here** — new session in any folder of the tree, with an optional name (`claude -n`)
-- **Read transcript** — read-only Markdown preview of a session without resuming it
-- **Search** — quick pick over session titles, dates and folders
-- **Copy resume command** — `cd '<folder>' && claude --resume <id>` for another terminal
+## How it works
 
-All views show only sessions from the folders open in the window; a window without a folder shows everything.
+Claude Code writes one file per running process (`~/.claude/sessions/<pid>.json`: session id, folder, state) and one transcript per session (`~/.claude/projects/*/<uuid>.jsonl`). Agent Switchboard polls them while a view is visible and matches each process to its session by id.
+
+- **State from files, not hooks.** The `status` and `waitingFor` fields of the session file give the state, so nothing has to be installed into Claude Code.
+- **Exact match.** Claude Code names the session of each pid itself, so no guessing from command-line flags.
+- **Partial reads.** Transcripts grow large; the extension reads the head once and the tail on change.
+
+Design decisions in [docs/architecture.md](docs/architecture.md).
 
 ## Settings
 
@@ -66,21 +87,16 @@ Folder paths from session files never pass through a shell: terminals get them a
 
 ## Limitations
 
+- Session files are an internal, undocumented Claude Code format, tested on Claude Code 2.1.312. A Claude Code version that does not write `~/.claude/sessions/<pid>.json` leaves **Open** empty with a message above it; **Favorites** and **All** keep working, they read only transcripts
 - The states come from the `status` and `waitingFor` fields of the session files, checked on Claude Code 2.1.312: `waitingFor` was seen with the value `permission prompt`; any other value, or none, also counts as needs approval. A session idle for 30 minutes or longer turns dormant on the next refresh
 - The extension reads `~/.claude`; a different location set with Claude Code's `CLAUDE_CONFIG_DIR` is not supported
 - Supported on macOS and Linux with POSIX shells (sh, bash, zsh). The copied resume command and the quoting of session names are not meant for fish or cmd.exe; Windows is not supported
-- Session files are an internal, undocumented Claude Code format, tested on Claude Code 2.1.312. A Claude Code version that does not write `~/.claude/sessions/<pid>.json` leaves **Open** empty with a message above it; **Favorites** and **All** keep working, they read only transcripts
 - Sessions running outside VS Code cannot be focused from the panel
 - Terminal tabs do not change color with the session state: VS Code sets a terminal's icon and color only when it is created
 - Double click is emulated (two clicks within 500 ms); tree views have no double-click event
 - A workspace opened through a symbolic link does not match sessions recorded under the real path
 - A `/rename` title older than the last 1 MB of a transcript is lost after a VS Code restart; the title falls back to the first prompt
 
-## Documentation
-
-- [Architecture and design decisions](docs/architecture.md)
-- [Changelog](CHANGELOG.md)
-
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) · [Changelog](CHANGELOG.md)
